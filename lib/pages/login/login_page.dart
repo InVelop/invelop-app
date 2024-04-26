@@ -35,8 +35,11 @@ class LoginPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushNamed(context, '/home');
                     },
-                    style: ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(InVelopColors.secondary)),
-                    child: const Text('Login', style: TextStyle(color: Color(0xffffffff))),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll<Color>(
+                            InVelopColors.secondary)),
+                    child: const Text('Login',
+                        style: TextStyle(color: Color(0xffffffff))),
                   ),
                   const SizedBox(height: 24),
                   const Text("Esqueci a senha")
