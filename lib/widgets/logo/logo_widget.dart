@@ -5,17 +5,17 @@ class LogoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 16.0),
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
           child:
-              Text("teste"),
+              Image.asset('assets/invelop_logo.png', width: 100, height: 100),
         ),
-        Text(
+        const Text(
           "InVelop",
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0XFF000000)),
         ),
       ],
     );
