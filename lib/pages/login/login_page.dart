@@ -32,7 +32,7 @@ class LoginPage extends StatelessWidget {
             const TextField(
               obscureText: true,
               decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: 'Senha',
                 labelStyle: TextStyle(color: InVelopColors.light),
                 floatingLabelStyle: TextStyle(color: InVelopColors.light),
                 enabledBorder: UnderlineInputBorder(
