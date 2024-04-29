@@ -3,8 +3,8 @@ import 'package:invelop/theme/invelop_colors.dart';
 import 'package:invelop/widgets/inputField/inputField_widget.dart';
 import 'package:invelop/widgets/logo/logo_widget.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,20 @@ class LoginPage extends StatelessWidget {
             const LogoWidget(),
             const InputFieldWidget(label: "Email"),
             const SizedBox(height: 16),
-            const InputFieldWidget(label: "Senha"),
+            const TextField(
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Senha',
+                labelStyle: TextStyle(color: InVelopColors.light),
+                floatingLabelStyle: TextStyle(color: InVelopColors.light),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: InVelopColors.light),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: InVelopColors.light),
+                ),
+              ),
+            ),
             const SizedBox(height: 32),
             Center(
               child: Column(
@@ -40,7 +53,7 @@ class LoginPage extends StatelessWidget {
                   const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/sign-up');
+                      Navigator.pushNamed(context, '/home');
                     },
                     style: const ButtonStyle(
                         backgroundColor:
