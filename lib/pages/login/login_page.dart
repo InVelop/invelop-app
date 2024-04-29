@@ -18,6 +18,14 @@ class LoginPage extends StatelessWidget {
             const TextField(
               decoration: InputDecoration(
                 labelText: 'Email',
+                labelStyle: TextStyle(color: InVelopColors.light),
+                floatingLabelStyle: TextStyle(color: InVelopColors.light),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: InVelopColors.light),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: InVelopColors.light),
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -25,24 +33,47 @@ class LoginPage extends StatelessWidget {
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Password',
+                labelStyle: TextStyle(color: InVelopColors.light),
+                floatingLabelStyle: TextStyle(color: InVelopColors.light),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: InVelopColors.light),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: InVelopColors.light),
+                ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 32),
             Center(
               child: Column(
                 children: [
+                  SizedBox(
+                    width: 300.0,
+                    height: 50.0,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/home');
+                      },
+                      style: const ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll<Color>(
+                              InVelopColors.secondary)),
+                      child: const Text('Login',
+                          style: TextStyle(color: Color(0xffffffff))),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/home');
                     },
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll<Color>(
-                            InVelopColors.secondary)),
-                    child: const Text('Login',
-                        style: TextStyle(color: Color(0xffffffff))),
+                    style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll<Color>(Colors.transparent),
+                        shadowColor: MaterialStatePropertyAll<Color>(
+                            Colors.transparent)),
+                    child: const Text('Cadastre-se',
+                        style: TextStyle(color: InVelopColors.text)),
                   ),
-                  const SizedBox(height: 24),
-                  const Text("Esqueci a senha")
                 ],
               ),
             )
