@@ -15,7 +15,7 @@ class LogoWidget extends StatelessWidget {
         ),
         const Text(
           "InVelop",
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0XFF000000)),
         ),
       ],
     );
