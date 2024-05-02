@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "635095134435",
+    "project_id": "invelop-a3472",
+    "storage_bucket": "invelop-a3472.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635095134435:android:65a060323b9360dad815d6",
+        "android_client_info": {
+          "package_name": "com.example.invelop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKugR-t28jHANk97p-z1lxTb_OBsaD60o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

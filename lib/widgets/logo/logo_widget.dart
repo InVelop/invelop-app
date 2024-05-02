@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:invelop/theme/invelop_colors.dart';
 
 class LogoWidget extends StatelessWidget {
   const LogoWidget({super.key});
@@ -15,7 +16,7 @@ class LogoWidget extends StatelessWidget {
         ),
         const Text(
           "InVelop",
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0XFF000000)),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: InVelopColors.text),
         ),
       ],
     );
