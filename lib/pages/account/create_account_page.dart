@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:invelop/theme/invelop_colors.dart';
+import 'package:invelop/utils/CurrencyFormat.dart';
 import 'package:invelop/widgets/button/button_widget.dart';
 import 'package:invelop/widgets/inputField/inputField_widget.dart';
 import 'package:invelop/widgets/menuDrawer/menuDrawer_widget.dart';
@@ -15,9 +17,12 @@ class CreateAccountPage extends StatefulWidget {
 class _CreateAccountPageState extends State<CreateAccountPage> {
   final _form = GlobalKey<FormState>();
   final List<DropdownItem> items = [
-    DropdownItem("geen", "green"),
-    DropdownItem("yellow", "yellow"),
-    DropdownItem("blue", "blue"),
+    DropdownItem("Cartão de crédito", "credit_card"),
+    DropdownItem("Cartão de débito", "debit_card"),
+    DropdownItem("Dinheiro", "money"),
+    DropdownItem("Conta poupança", "savings_account"),
+    DropdownItem("Conta corrente", "current_account"),
+    DropdownItem("Corretora de valores", "stock_brokerage"),
   ];
 
   save() {
@@ -47,10 +52,17 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       label: "Nome",
                     ),
                     const SizedBox(height: 32),
-                    SelectField(items: items, onChanged: (value) => print(value.value)),
+                    SelectField(
+                        items: items, onChanged: (value) => print(value.value)),
                     const SizedBox(height: 32),
-                    const InputFieldWidget(
+                    InputFieldWidget(
                       label: "Valor inicial",
+                      inputType:
+                          const TextInputType.numberWithOptions(decimal: true),
+                      formatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        CurrencyPtBrInputFormatter()
+                      ],
                     ),
                     const SizedBox(height: 64),
                     ButtonWidget(
