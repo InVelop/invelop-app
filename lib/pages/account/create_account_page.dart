@@ -34,7 +34,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Cadastrar contas',
+          'Cadastrar conta',
           style: TextStyle(color: InVelopColors.text),
         ),
         backgroundColor: InVelopColors.background,
