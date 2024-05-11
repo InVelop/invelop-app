@@ -15,21 +15,27 @@ class _LoginPageState extends State<LoginPage> {
   final _form = GlobalKey<FormState>();
   final _email = TextEditingController();
   final _password = TextEditingController();
+  bool error = false;
 
   final AuthService _authService = AuthService();
 
   sign() async {
     if (_form.currentState!.validate()) {
-      print("validated");
       String email = _email.text;
       String password = _password.text;
 
       var result =
           await _authService.signUser(email: email, password: password);
       if (result == null) {
+        setState(() {
+          error = false;
+        });
+        error = false;
         Navigator.pushNamed(context, '/home');
       } else {
-        print("Error");
+        setState(() {
+          error = true;
+        });
       }
     }
   }
@@ -69,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: sign,
                       style: const ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll<Color>(
-                              InVelopColors.secondary)),
+                              InVelopColors.primary)),
                       child: const Text('Login',
                           style: TextStyle(color: InVelopColors.light)),
                     ),
@@ -88,6 +94,10 @@ class _LoginPageState extends State<LoginPage> {
                     child: const Text('Cadastre-se',
                         style: TextStyle(color: InVelopColors.text)),
                   ),
+                  const SizedBox(height: 32),
+                  if (error)
+                  const Text('Email ou senha incorretos',
+                        style: TextStyle(color: InVelopColors.error))
                 ],
               ),
             )

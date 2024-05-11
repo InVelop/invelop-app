@@ -11,24 +11,36 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Home Page',
+          'Envelopes',
           style: TextStyle(color: InVelopColors.text),
         ),
         backgroundColor: InVelopColors.background,
+        iconTheme: const IconThemeData(color: InVelopColors.light),
       ),
       drawer: Drawer(
+          surfaceTintColor: InVelopColors.light,
           child: ListView(
-        children: [
-          ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text("Sair"),
-            onTap: () {
-              AuthService().logout();
-              Navigator.pushNamed(context, '/');
-            },
-          )
-        ],
-      )),
+            children: [
+              ListTile(
+                leading: const Icon(Icons.logout),
+                title: const Text("Sair"),
+                onTap: () {
+                  AuthService().logout();
+                  Navigator.pushNamed(context, '/');
+                },
+              )
+            ],
+          )),
+      body: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        child: Center(
+          child: Text("250",
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: InVelopColors.text)),
+        ),
+      ),
     );
   }
 }
