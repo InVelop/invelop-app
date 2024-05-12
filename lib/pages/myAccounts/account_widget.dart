@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget account(String title, String balance) {
+Widget account(String title, int balance) {
 
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -20,9 +20,9 @@ Widget account(String title, String balance) {
           ),
         ),
         Text(
-          balance,
+          'R\$ $balance',
           style: const TextStyle(
-            fontSize: 18,
+            fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
         ),
