@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:functions_framework/functions_framework.dart';
 import 'package:invelop/services/auth_service.dart';
 import 'package:invelop/theme/invelop_colors.dart';
 import 'package:invelop/widgets/inputField/inputField_widget.dart';
 import 'package:invelop/widgets/logo/logo_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -20,12 +23,36 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final AuthService _authService = AuthService();
 
-  register() {
+  register() async {
     if (_form.currentState!.validate()) {
-      String email = _email.text;
+      String email = _email.text.toLowerCase().trim();
       String password = _password.text;
-      _authService.registerUser(email: email, password: password);
-      Navigator.pushNamed(context, '/');
+      registerUser(email, password);
+    }
+  }
+
+  Future<void> registerUser(String email, String password) async {
+    // _authService.registerUser(email: email, password: password);
+    try {
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final user = credential.user;
+
+      if (user != null) {
+        // Create a user document in Firestore
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set(
+            {'name': _name.text, 'email': email, 'displayName': _name.text});
+
+        Navigator.pushNamed(context, '/budget');
+      }
+    } on FirebaseAuthException catch (e) {
+      // Handle authentication errors (e.g., weak password)
+      print(e
+          .code); // You can display error messages to the user based on the error code
     }
   }
 
@@ -43,8 +70,11 @@ class _SignUpPageState extends State<SignUpPage> {
                         _form.currentState!.reset();
                         Navigator.pop(context);
                       },
-                      icon: const Icon(Icons.arrow_left_outlined,
-                          color: InVelopColors.light, size: 42,))
+                      icon: const Icon(
+                        Icons.arrow_left_outlined,
+                        color: InVelopColors.light,
+                        size: 42,
+                      ))
                 ],
               ),
             )),
