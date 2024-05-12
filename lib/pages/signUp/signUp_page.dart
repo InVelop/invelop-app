@@ -43,8 +43,11 @@ class _SignUpPageState extends State<SignUpPage> {
                         _form.currentState!.reset();
                         Navigator.pop(context);
                       },
-                      icon: const Icon(Icons.arrow_left_outlined,
-                          color: InVelopColors.light, size: 42,))
+                      icon: const Icon(
+                        Icons.arrow_left_outlined,
+                        color: InVelopColors.light,
+                        size: 42,
+                      ))
                 ],
               ),
             )),
