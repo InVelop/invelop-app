@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:invelop/models/user_model.dart';
 import 'package:invelop/utils/custom_date_utils.dart';
 import 'package:invelop/theme/invelop_colors.dart';
 import 'package:invelop/widgets/menuDrawer/menuDrawer_widget.dart';
+import 'package:provider/provider.dart';
 
 class TransactionsPage extends StatefulWidget {
   const TransactionsPage({super.key});
@@ -15,79 +17,87 @@ class _TransactionsPageState extends State<TransactionsPage> {
 
   List<Transaction> transactions = [
     Transaction(
-      date: DateTime.now(),
-      name: 'Shell-Box',
-      category: 'Combustível',
-      type: 'outcome',
-      amount: -250.00,
-    ),
+        date: DateTime.now(),
+        name: 'Shell-Box',
+        category: 'Combustível',
+        type: 'outcome',
+        amount: -250.00,
+        accountName: 'NuBank'),
     Transaction(
-      date: DateTime.now(),
-      name: 'Dona Florinda Rest',
-      category: 'Restaurante',
-      type: 'outcome',
-      amount: -1250.00,
-    ),
+        date: DateTime.now(),
+        name: 'Dona Florinda Rest',
+        category: 'Restaurante',
+        type: 'outcome',
+        amount: -1250.00,
+        accountName: 'NuBank'),
     Transaction(
-      date: DateTime.now(),
-      name: 'Baratie West Blue',
-      category: 'Restaurante',
-      type: 'outcome',
-      amount: -1250.00,
-    ),
+        date: DateTime.now(),
+        name: 'Baratie West Blue',
+        category: 'Restaurante',
+        type: 'outcome',
+        amount: -1250.00,
+        accountName: 'NuBank'),
     Transaction(
-      date: DateTime.now(),
-      name: 'Pix Joaquim',
-      category: 'Receita',
-      type: 'income',
-      amount: 290.00,
-    ),
+        date: DateTime.now(),
+        name: 'Pix Joaquim',
+        category: 'Receita',
+        type: 'income',
+        amount: 290.00,
+        accountName: 'NuBank'),
     Transaction(
-      date: DateTime.now(),
-      name: 'Salário',
-      category: 'Receita',
-      type: 'income',
-      amount: 18750.00,
-    ),
+        date: DateTime.now(),
+        name: 'Salário',
+        category: 'Receita',
+        type: 'income',
+        amount: 18750.00,
+        accountName: 'NuBank'),
     Transaction(
-      date: DateTime.now().subtract(Duration(days: 1)),
-      name: 'Shell-Box',
-      category: 'Combustível',
-      type: 'outcome',
-      amount: -50.00,
-    ),
+        date: DateTime.now().subtract(Duration(days: 1)),
+        name: 'Shell-Box',
+        category: 'Combustível',
+        type: 'outcome',
+        amount: -50.00,
+        accountName: 'Bradesco'),
     Transaction(
-      date: DateTime.now().subtract(Duration(days: 1)),
-      name: 'Macaule Food',
-      category: 'Restaurante',
-      type: 'outcome',
-      amount: -125.30,
-    ),
+        date: DateTime.now().subtract(Duration(days: 1)),
+        name: 'Macaule Food',
+        category: 'Restaurante',
+        type: 'outcome',
+        amount: -125.30,
+        accountName: 'Bradesco'),
     Transaction(
-      date: DateTime.now().subtract(Duration(days: 1)),
-      name: 'Baratie West Blue',
-      category: 'Restaurante',
-      type: 'outcome',
-      amount: -240.70,
-    ),
+        date: DateTime.now().subtract(Duration(days: 1)),
+        name: 'Baratie West Blue',
+        category: 'Restaurante',
+        type: 'outcome',
+        amount: -240.70,
+        accountName: 'Bradesco'),
     Transaction(
-      date: DateTime.now().subtract(Duration(days: 2)),
-      name: 'Pix Joaquim',
-      category: 'Receita',
-      type: 'income',
-      amount: 495.00,
-    ),
+        date: DateTime.now().subtract(Duration(days: 2)),
+        name: 'Pix Joaquim',
+        category: 'Receita',
+        type: 'income',
+        amount: 495.00,
+        accountName: 'Bradesco'),
     Transaction(
-      date: DateTime.now().subtract(Duration(days: 2)),
-      name: 'Netflix',
-      category: 'Serviços',
-      type: 'outcome',
-      amount: -50.00,
-    ),
+        date: DateTime.now().subtract(Duration(days: 3)),
+        name: 'Netflix',
+        category: 'Serviços',
+        type: 'outcome',
+        amount: -50.00,
+        accountName: 'Bradesco'),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final user = userProvider.user;
+    final uid = user?.uid;
+    final email = user?.email;
+
+    print(uid);
+    print(email);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -207,12 +217,13 @@ class Transaction {
   final String category;
   final String type;
   final double amount;
+  final String? accountName;
 
-  Transaction({
-    required this.date,
-    required this.name,
-    required this.category,
-    required this.type,
-    required this.amount,
-  });
+  Transaction(
+      {required this.date,
+      required this.name,
+      required this.category,
+      required this.type,
+      required this.amount,
+      required this.accountName});
 }

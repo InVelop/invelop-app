@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:invelop/models/user_model.dart';
 import 'package:invelop/pages/account/create_account_page.dart';
 import 'package:invelop/pages/budget/budget_page.dart';
 import 'package:invelop/pages/login/login_page.dart';
@@ -6,6 +7,7 @@ import 'package:invelop/pages/signUp/signUp_page.dart';
 import 'package:invelop/pages/transactions/transactions.dart';
 import 'package:invelop/theme/invelop_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -14,7 +16,12 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MainApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {

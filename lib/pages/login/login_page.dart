@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:invelop/models/user_model.dart';
 import 'package:invelop/services/auth_service.dart';
 import 'package:invelop/theme/invelop_colors.dart';
 import 'package:invelop/widgets/inputField/inputField_widget.dart';
 import 'package:invelop/widgets/logo/logo_widget.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -26,7 +28,14 @@ class _LoginPageState extends State<LoginPage> {
 
       var result =
           await _authService.signUser(email: email, password: password);
-      if (result == null) {
+
+      final uid = result?.user?.uid;
+
+      // Store the user data using the provider
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      userProvider.setUser(UserModel(uid: uid, email: email));
+
+      if (result != null) {
         setState(() {
           error = false;
         });
