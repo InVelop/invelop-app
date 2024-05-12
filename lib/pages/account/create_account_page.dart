@@ -23,10 +23,10 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   String selectedDropdownValue = "credit_card";
 
   final List<DropdownItem> items = [
-    DropdownItem("Conta Corrente", "/account_type/kBUAiQxs0ZJnyPksepxv"),
-    DropdownItem("Conta poupança", "/account_type/PfEmKK9VM4eg7lCenqAp"),
-    DropdownItem("Cartão de crédito", "/account_type/1St2h7anOBLj71kpxeyt"),
-    DropdownItem("Dinheiro", "/account_type/wuR1bswDsUyLH7qAROZ4")
+    DropdownItem("Conta Corrente", "kBUAiQxs0ZJnyPksepxv"),
+    DropdownItem("Conta poupança", "PfEmKK9VM4eg7lCenqAp"),
+    DropdownItem("Cartão de crédito", "1St2h7anOBLj71kpxeyt"),
+    DropdownItem("Dinheiro", "wuR1bswDsUyLH7qAROZ4")
   ];
 
   String? getUserUID() {
@@ -44,12 +44,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         return;
       }
 
-      var collection = FirebaseFirestore.instance.collection('accounts');
+      var collection = FirebaseFirestore.instance.collection('users/$userUID/accounts');
       collection.add({
         'name': nameController.text,
         'account_type': selectedDropdownValue,
-        'balance': initialValueController.text,
-        'user_uid': userUID,
+        'balance': initialValueController.text
       }).then((result) {
         print("Conta cadastrada com sucesso!");
         ScaffoldMessenger.of(context).showSnackBar(
