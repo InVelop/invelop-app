@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:invelop/pages/budget/avaliable_money_widget.dart';
-import 'package:invelop/pages/budget/budget_header_widget.dart';
 import 'package:invelop/pages/budget/budget_category_widget.dart';
 import 'package:invelop/pages/budget/budget_item_widget.dart';
 import 'package:invelop/theme/invelop_colors.dart';
@@ -26,7 +25,6 @@ class BudgetScreen extends StatelessWidget {
         children: <Widget>[
           const MonthSelector(),
           avaliableMoney(),
-          budgetHeader(),
           budgetCategory('🏠 Habitação', [
             budgetItem('Aluguel', 1500, 2500),
             budgetItem('Energia', 40, 250),
