@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:invelop/theme/invelop_colors.dart';
 
 class InputFieldWidget extends StatelessWidget {
@@ -8,6 +9,7 @@ class InputFieldWidget extends StatelessWidget {
   final TextInputType inputType;
   final TextEditingController? controller;
   final FormFieldValidator<String>? validator;
+  final List<TextInputFormatter>? formatters;
 
   const InputFieldWidget(
       {super.key,
@@ -16,6 +18,7 @@ class InputFieldWidget extends StatelessWidget {
       this.inputType = TextInputType.text,
       this.controller,
       this.validator,
+      this.formatters,
       this.isRequired = false});
 
   @override
@@ -34,6 +37,7 @@ class InputFieldWidget extends StatelessWidget {
         return null;
       },
       style: const TextStyle(color: InVelopColors.text),
+      inputFormatters: formatters,
       decoration: InputDecoration(
         labelText: label,
         labelStyle: const TextStyle(color: InVelopColors.light),
@@ -55,3 +59,4 @@ class InputFieldWidget extends StatelessWidget {
     );
   }
 }
+
