@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:invelop/pages/account/create_account_page.dart';
 import 'package:invelop/pages/home_page.dart';
 import 'package:invelop/pages/login/login_page.dart';
 import 'package:invelop/pages/signUp/signUp_page.dart';
@@ -30,6 +31,7 @@ class MainApp extends StatelessWidget {
       routes: {
         '/': (context) => const LoginPage(),
         '/home': (context) => const HomePage(),
+        '/create-account': (context) => const CreateAccountPage(),
         '/sign-up': (context) => const SignUpPage(),
       },
     );
