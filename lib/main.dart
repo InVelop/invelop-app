@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:invelop/pages/account/create_account_page.dart';
 import 'package:invelop/pages/budget/budget_page.dart';
 import 'package:invelop/pages/login/login_page.dart';
+import 'package:invelop/pages/myAccounts/myAccounts_page.dart';
 import 'package:invelop/pages/signUp/signUp_page.dart';
 import 'package:invelop/theme/invelop_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -33,6 +34,7 @@ class MainApp extends StatelessWidget {
         '/budget': (context) => const BudgetScreen(),
         '/create-account': (context) => const CreateAccountPage(),
         '/sign-up': (context) => const SignUpPage(),
+        '/myAccounts': (context) => const CreateMyAccountsPage()
       },
     );
   }
