@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:invelop/theme/invelop_colors.dart';
 import 'package:invelop/utils/CurrencyFormat.dart';
 import 'package:invelop/widgets/button/button_widget.dart';
 import 'package:invelop/widgets/inputField/inputField_widget.dart';
 import 'package:invelop/widgets/menuDrawer/menuDrawer_widget.dart';
 import 'package:invelop/widgets/selectField/selectField_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({super.key});
@@ -16,17 +18,48 @@ class CreateAccountPage extends StatefulWidget {
 
 class _CreateAccountPageState extends State<CreateAccountPage> {
   final _form = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController initialValueController = TextEditingController();
+  String selectedDropdownValue = "credit_card";
+
   final List<DropdownItem> items = [
-    DropdownItem("Cartão de crédito", "credit_card"),
-    DropdownItem("Cartão de débito", "debit_card"),
-    DropdownItem("Dinheiro", "money"),
-    DropdownItem("Conta poupança", "savings_account"),
-    DropdownItem("Conta corrente", "current_account"),
-    DropdownItem("Corretora de valores", "stock_brokerage"),
+    DropdownItem("Conta Corrente", "/account_type/kBUAiQxs0ZJnyPksepxv"),
+    DropdownItem("Conta poupança", "/account_type/PfEmKK9VM4eg7lCenqAp"),
+    DropdownItem("Cartão de crédito", "/account_type/1St2h7anOBLj71kpxeyt"),
+    DropdownItem("Dinheiro", "/account_type/wuR1bswDsUyLH7qAROZ4")
   ];
 
-  save() {
-    print("Salve");
+  String? getUserUID() {
+    final user = FirebaseAuth.instance.currentUser;
+    return user?.uid;
+  }
+
+  void save() {
+    if (_form.currentState!.validate()) {
+      var userUID = getUserUID();
+      if (userUID == null) {
+        print("Nenhum usuário está logado.");
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Nenhum usuário está logado.")));
+        return;
+      }
+
+      var collection = FirebaseFirestore.instance.collection('accounts');
+      collection.add({
+        'name': nameController.text,
+        'account_type': selectedDropdownValue,
+        'balance': initialValueController.text,
+        'user_uid': userUID,
+      }).then((result) {
+        print("Conta cadastrada com sucesso!");
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Conta cadastrada com sucesso!")));
+      }).catchError((err) {
+        print("Erro ao cadastrar conta: $err");
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Erro ao cadastrar conta: $err")));
+      });
+    }
   }
 
   @override
@@ -44,33 +77,39 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Center(
-            child: Form(
-                key: _form,
-                child: Column(
-                  children: [
-                    const InputFieldWidget(
-                      label: "Nome",
-                    ),
-                    const SizedBox(height: 32),
-                    SelectField(
-                        items: items, onChanged: (value) => print(value.value)),
-                    const SizedBox(height: 32),
-                    InputFieldWidget(
-                      label: "Valor inicial",
-                      inputType:
-                          const TextInputType.numberWithOptions(decimal: true),
-                      formatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        CurrencyPtBrInputFormatter()
-                      ],
-                    ),
-                    const SizedBox(height: 64),
-                    ButtonWidget(
-                      label: "Salvar",
-                      onPressed: save,
-                    )
-                  ],
-                ))),
+          child: Form(
+              key: _form,
+              child: Column(
+                children: [
+                  InputFieldWidget(
+                    controller: nameController,
+                    label: "Nome",
+                  ),
+                  const SizedBox(height: 32),
+                  SelectField(
+                    items: items,
+                    onChanged: (value) =>
+                        setState(() => selectedDropdownValue = value.value),
+                  ),
+                  const SizedBox(height: 32),
+                  InputFieldWidget(
+                    controller: initialValueController,
+                    label: "Valor inicial",
+                    inputType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    formatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      CurrencyPtBrInputFormatter()
+                    ],
+                  ),
+                  const SizedBox(height: 64),
+                  ButtonWidget(
+                    label: "Salvar",
+                    onPressed: save,
+                  )
+                ],
+              )),
+        ),
       ),
     );
   }
