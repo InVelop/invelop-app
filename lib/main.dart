@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:invelop/pages/home_page.dart';
 import 'package:invelop/pages/login/login_page.dart';
 import 'package:invelop/pages/signUp/signUp_page.dart';
+import 'package:invelop/pages/transactions.dart';
 import 'package:invelop/theme/invelop_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -9,8 +10,8 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
-);
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(const MainApp());
 }
@@ -20,7 +21,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   return MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Invelop',
       theme: ThemeData(
@@ -31,6 +32,7 @@ class MainApp extends StatelessWidget {
         '/': (context) => const LoginPage(),
         '/home': (context) => const HomePage(),
         '/sign-up': (context) => const SignUpPage(),
+        '/transactions': (context) => const TransactionsPage(),
       },
     );
   }
