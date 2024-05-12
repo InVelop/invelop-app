@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
           error = false;
         });
         error = false;
-        Navigator.pushNamed(context, '/home');
+        Navigator.pushNamed(context, '/budget');
       } else {
         setState(() {
           error = true;

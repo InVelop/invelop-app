@@ -13,11 +13,10 @@ class MenuDrawerWidget extends StatelessWidget {
           child: ListView(
             children: [
               ListTile(
-                leading: const Icon(Icons.logout),
-                title: const Text("Sair"),
+                leading: const Icon(Icons.savings),
+                title: const Text("Orçamento"),
                 onTap: () {
-                  AuthService().logout();
-                  Navigator.pushNamed(context, '/');
+                  Navigator.pushNamed(context, '/budget');
                 },
               ),
               ListTile(
@@ -26,7 +25,16 @@ class MenuDrawerWidget extends StatelessWidget {
                 onTap: () {
                   Navigator.pushNamed(context, '/create-account');
                 },
-              )
+              ),
+              const Divider(),
+              ListTile(
+                leading: const Icon(Icons.logout),
+                title: const Text("Sair"),
+                onTap: () {
+                  AuthService().logout();
+                  Navigator.pushNamed(context, '/');
+                },
+              ),
             ],
           ));
   }
