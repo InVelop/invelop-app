@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:functions_framework/functions_framework.dart';
 import 'package:invelop/services/auth_service.dart';
 import 'package:invelop/theme/invelop_colors.dart';
 import 'package:invelop/widgets/inputField/inputField_widget.dart';
