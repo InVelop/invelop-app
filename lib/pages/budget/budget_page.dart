@@ -2,12 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:invelop/pages/budget/avaliable_money_widget.dart';
 import 'package:invelop/pages/budget/budget_category_widget.dart';
 import 'package:invelop/pages/budget/budget_item_widget.dart';
+import 'package:invelop/services/account_types_service.dart';
 import 'package:invelop/theme/invelop_colors.dart';
 import 'package:invelop/widgets/menuDrawer/menuDrawer_widget.dart';
 import 'package:invelop/pages/budget/month_selector_widget.dart';
 
-class BudgetScreen extends StatelessWidget {
+class BudgetScreen extends StatefulWidget {
   const BudgetScreen({super.key});
+
+  @override
+  State<BudgetScreen> createState() => _BudgetScreenState();
+}
+
+class _BudgetScreenState extends State<BudgetScreen> {
+  @override
+  void initState() {
+    super.initState();
+    saveAccountTypes();
+  }
+
+  saveAccountTypes() async {
+    final accountTypesService = AccountTypesService();
+    await accountTypesService.fetchAccountTypes(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,5 +96,5 @@ class BudgetScreen extends StatelessWidget {
         ],
       ),
     );
-  } 
+  }
 }

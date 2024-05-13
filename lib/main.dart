@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:invelop/models/account_types_model.dart';
 import 'package:invelop/models/user_model.dart';
 import 'package:invelop/pages/account/create_account_page.dart';
 import 'package:invelop/pages/budget/budget_page.dart';
@@ -17,12 +18,10 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => UserProvider(),
-      child: const MainApp(),
-    ),
-  );
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => UserProvider()),
+    ChangeNotifierProvider(create: (context) => AccountTypesProvider()),
+  ], child: const MainApp()));
 }
 
 class MainApp extends StatelessWidget {

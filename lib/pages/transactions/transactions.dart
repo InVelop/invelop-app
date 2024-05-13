@@ -94,9 +94,11 @@ class _TransactionsPageState extends State<TransactionsPage> {
     final user = userProvider.user;
     final uid = user?.uid;
     final email = user?.email;
+    final accounts = user?.accounts;
 
     print(uid);
     print(email);
+    print(accounts);
 
     return Scaffold(
       appBar: AppBar(

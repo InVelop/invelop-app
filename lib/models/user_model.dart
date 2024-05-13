@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 class UserModel {
   final String? uid;
   final String? email;
+  final List<String>? accounts;
 
-  UserModel({required this.uid, required this.email});
+  UserModel({required this.uid, required this.email, this.accounts});
 }
 
 // Define a provider class to manage user data
