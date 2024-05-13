@@ -45,16 +45,22 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       }
 
       var collection = FirebaseFirestore.instance.collection('users/$userUID/accounts');
+      
+      double? balance = double.tryParse(initialValueController.text.replaceAll("R\$ ", "").replaceAll(".", "").replaceAll(",", "."));
+      if (balance == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Valor do balanço inválido.")));
+        return;
+      }
+
       collection.add({
         'name': nameController.text,
         'account_type': selectedDropdownValue,
-        'balance': initialValueController.text
+        'balance': balance
       }).then((result) {
-        print("Conta cadastrada com sucesso!");
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Conta cadastrada com sucesso!")));
       }).catchError((err) {
-        print("Erro ao cadastrar conta: $err");
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Erro ao cadastrar conta: $err")));
       });
