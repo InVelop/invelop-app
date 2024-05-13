@@ -1,6 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:invelop/models/user_model.dart';
-import 'package:provider/provider.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -18,13 +16,6 @@ class AuthService {
     try {
       final credentials = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-
-      print(credentials);
-      print("========================");
-      print(credentials.user);
-      print("========================");
-      print(credentials.user?.displayName);
-      print(credentials.user?.uid);
 
       // Get the user data
       if (credentials.user != null) {
