@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-Widget account(String title, int balance) {
+Widget account(String title, double? balance) {
+  final formatter = NumberFormat("#,##0.00", "pt_BR");
+  String balanceText = "R\$ ${formatter.format(balance! / 100)}";
 
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -20,7 +23,7 @@ Widget account(String title, int balance) {
           ),
         ),
         Text(
-          'R\$ $balance',
+          balanceText,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.white,
