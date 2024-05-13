@@ -19,6 +19,13 @@ class MenuDrawerWidget extends StatelessWidget {
               },
             ),
             ListTile(
+                leading: const Icon(Icons.wallet),
+                title: const Text("Minhas contas"),
+                onTap: () {
+                  Navigator.pushNamed(context, '/myAccounts');
+                },
+              ),
+            ListTile(
               leading: const Icon(Icons.wallet),
               title: const Text("Criar conta"),
               onTap: () {
@@ -32,13 +39,6 @@ class MenuDrawerWidget extends StatelessWidget {
                 Navigator.pushNamed(context, '/transactions');
               },
             ),
-             ListTile(
-                leading: const Icon(Icons.wallet),
-                title: const Text("Minhas contas"),
-                onTap: () {
-                  Navigator.pushNamed(context, '/myAccounts');
-                },
-              ),
             const Divider(),
             ListTile(
               leading: const Icon(Icons.logout),
