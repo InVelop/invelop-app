@@ -31,4 +31,9 @@ class UserProvider with ChangeNotifier {
             ?.uid ??
         '';
   }
+
+  void cleanUser() {
+    _user = null;
+    notifyListeners();
+  }
 }

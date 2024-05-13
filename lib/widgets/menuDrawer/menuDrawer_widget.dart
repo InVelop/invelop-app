@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:invelop/models/user_model.dart';
 import 'package:invelop/services/auth_service.dart';
 import 'package:invelop/theme/invelop_colors.dart';
+import 'package:provider/provider.dart';
 
 class MenuDrawerWidget extends StatelessWidget {
   const MenuDrawerWidget({super.key});
@@ -45,6 +47,8 @@ class MenuDrawerWidget extends StatelessWidget {
               title: const Text("Sair"),
               onTap: () {
                 AuthService().logout();
+                final userProvider = Provider.of<UserProvider>(context, listen: false);
+                userProvider.cleanUser();
                 Navigator.pushNamed(context, '/');
               },
             ),
