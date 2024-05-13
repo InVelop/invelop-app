@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:invelop/models/transaction_model.dart';
 import 'package:invelop/models/user_model.dart';
 import 'package:invelop/pages/account/create_account_page.dart';
+import 'package:invelop/pages/myAccounts/myAccounts_page.dart';
 import 'package:invelop/utils/custom_date_utils.dart';
 import 'package:invelop/theme/invelop_colors.dart';
+import 'package:invelop/widgets/custom_fab/custom_fab_widget.dart';
 import 'package:invelop/widgets/menuDrawer/menuDrawer_widget.dart';
 import 'package:invelop/widgets/transactions/no_accounts.dart';
 import 'package:invelop/widgets/transactions/no_transactions.dart';
@@ -17,8 +19,6 @@ class TransactionsPage extends StatefulWidget {
 }
 
 class _TransactionsPageState extends State<TransactionsPage> {
-  static const whiteFont = TextStyle(color: InVelopColors.text);
-
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
@@ -96,14 +96,24 @@ class _TransactionsPageState extends State<TransactionsPage> {
                     transaction.category,
                     style: const TextStyle(color: InVelopColors.subtle),
                   ),
-                  trailing: Text(
-                    '${transaction.type == 'income' ? '' : '-'} R\$ ${transaction.amount.abs().toStringAsFixed(2)}',
-                    style: TextStyle(
-                      color: transaction.type == 'income'
-                          ? Colors.green
-                          : Colors.red,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  trailing: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Text(
+                        '${transaction.type == 'income' ? '' : '-'} R\$ ${transaction.amount.abs().toStringAsFixed(2)}',
+                        style: TextStyle(
+                            color: transaction.type == 'income'
+                                ? Colors.green
+                                : Colors.red,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14),
+                      ),
+                      Text(
+                        transaction.accountName ?? 'Conta',
+                        style: const TextStyle(
+                            color: InVelopColors.subtle, fontSize: 12),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -112,47 +122,111 @@ class _TransactionsPageState extends State<TransactionsPage> {
         ),
         floatingActionButton: Align(
           alignment: Alignment.bottomCenter,
-          child: FractionallySizedBox(
-            widthFactor: 1,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                FloatingActionButton(
-                  onPressed: () {
-                    final RenderBox renderBox =
-                        context.findRenderObject() as RenderBox;
-                    final size = renderBox.size;
-                    final offset = renderBox.localToGlobal(Offset.zero);
-                    showMenu(
-                      color: Color(InVelopColors.primary.value),
-                      context: context,
-                      position: RelativeRect.fromLTRB(
-                        offset.dx,
-                        offset.dy + size.height + 100,
-                        offset.dx + size.width,
-                        offset.dy,
+          child: CustomFabWidget(
+            menuItems: const [
+              PopupMenuItem(
+                value: 1,
+                child: Text("Adicionar transação",
+                    style: TextStyle(color: InVelopColors.text)),
+              ),
+              PopupMenuItem(
+                value: 2,
+                child: Text("Acessar contas",
+                    style: TextStyle(color: InVelopColors.text)),
+              ),
+            ],
+            onItemSelected: (value) {
+              if (value == 1) {
+                showModalBottomSheet(
+                  context: context,
+                  backgroundColor: InVelopColors.background,
+                  builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: <Widget>[
+                            InputDecorator(
+                              decoration: const InputDecoration(
+                                labelText: "Conta",
+                                labelStyle:
+                                    TextStyle(color: InVelopColors.text),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  items: accounts?.map((account) {
+                                    return DropdownMenuItem<String>(
+                                      value: account.name,
+                                      child: Text(account.name),
+                                    );
+                                  }).toList(),
+                                  onChanged: (_) {},
+                                ),
+                              ),
+                            ),
+                            const TextField(
+                              decoration: InputDecoration(labelText: 'Valor'),
+                              keyboardType: TextInputType.number,
+                            ),
+                            const TextField(
+                              decoration:
+                                  InputDecoration(labelText: 'Category'),
+                            ),
+                            TextField(
+                              readOnly: true,
+                              decoration: const InputDecoration(
+                                labelText: 'Data',
+                                labelStyle:
+                                    TextStyle(color: InVelopColors.text),
+                              ),
+                              onTap: () async {
+                                var date = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2100),
+                                );
+                                if (date != null) {
+                                  // Do something with the selected date
+                                }
+                              },
+                            ),
+                            const TextField(
+                              decoration: InputDecoration(labelText: 'Nome'),
+                            ),
+                            InputDecorator(
+                              decoration: const InputDecoration(
+                                labelText: "Tipo de transação",
+                                labelStyle:
+                                    TextStyle(color: InVelopColors.text),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  items: <String>['Income', 'Outcome']
+                                      .map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  onChanged: (_) {},
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      items: [
-                        const PopupMenuItem(
-                            value: 1,
-                            child:
-                                Text("Adicionar transação", style: whiteFont)),
-                        const PopupMenuItem(
-                            value: 2,
-                            child: Text("Option 2", style: whiteFont)),
-                      ],
-                    ).then((value) {
-                      print("value: $value");
-                    });
+                    );
                   },
-                  backgroundColor: Colors.green,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: const Icon(Icons.add, color: InVelopColors.text),
-                ),
-              ],
-            ),
+                );
+              } else if (value == 2) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CreateMyAccountsPage()),
+                );
+              }
+            },
           ),
         ),
       );

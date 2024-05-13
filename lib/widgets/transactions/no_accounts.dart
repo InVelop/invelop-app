@@ -36,10 +36,11 @@ class NoAccountsWidget extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CreateAccountPage()),
+                MaterialPageRoute(
+                    builder: (context) => const CreateAccountPage()),
               );
             },
-            child: Text('Criar Conta'),
+            child: const Text('Criar Conta'),
           ),
         ],
       )),

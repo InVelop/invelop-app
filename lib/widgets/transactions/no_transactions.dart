@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:invelop/pages/account/create_account_page.dart';
 import 'package:invelop/theme/invelop_colors.dart';
+import 'package:invelop/widgets/custom_fab/custom_fab_widget.dart';
 import 'package:invelop/widgets/menuDrawer/menuDrawer_widget.dart';
 
 class NoTransactionsWidget extends StatelessWidget {
@@ -25,48 +27,31 @@ class NoTransactionsWidget extends StatelessWidget {
       ),
       floatingActionButton: Align(
         alignment: Alignment.bottomCenter,
-        child: FractionallySizedBox(
-          widthFactor: 1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              FloatingActionButton(
-                onPressed: () {
-                  final RenderBox renderBox =
-                      context.findRenderObject() as RenderBox;
-                  final size = renderBox.size;
-                  final offset = renderBox.localToGlobal(Offset.zero);
-                  showMenu(
-                    color: Color(InVelopColors.primary.value),
-                    context: context,
-                    position: RelativeRect.fromLTRB(
-                      offset.dx,
-                      offset.dy + size.height + 100,
-                      offset.dx + size.width,
-                      offset.dy,
-                    ),
-                    items: [
-                      const PopupMenuItem(
-                          value: 1,
-                          child: Text("Adicionar transação",
-                              style: TextStyle(color: InVelopColors.text))),
-                      const PopupMenuItem(
-                          value: 2,
-                          child: Text("Option 2",
-                              style: TextStyle(color: InVelopColors.text))),
-                    ],
-                  ).then((value) {
-                    print("value: $value");
-                  });
-                },
-                backgroundColor: Colors.green,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: const Icon(Icons.add, color: InVelopColors.text),
-              ),
-            ],
-          ),
+        child: CustomFabWidget(
+          menuItems: const [
+            PopupMenuItem(
+              value: 1,
+              child: Text("Adicionar transação",
+                  style: TextStyle(color: InVelopColors.text)),
+            ),
+            PopupMenuItem(
+              value: 2,
+              child: Text("Acessar contas",
+                  style: TextStyle(color: InVelopColors.text)),
+            ),
+          ],
+          onItemSelected: (value) {
+            if (value == 1) {
+              // Add transaction
+              print("ADD TRANSACTION");
+            } else if (value == 2) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const CreateAccountPage()),
+              );
+            }
+          },
         ),
       ),
     );

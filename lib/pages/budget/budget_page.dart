@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:invelop/pages/account/create_account_page.dart';
 import 'package:invelop/pages/budget/avaliable_money_widget.dart';
 import 'package:invelop/pages/budget/budget_category_widget.dart';
 import 'package:invelop/pages/budget/budget_item_widget.dart';
+import 'package:invelop/pages/transactions/transactions.dart';
 import 'package:invelop/services/account_types_service.dart';
 import 'package:invelop/services/user_service.dart';
 import 'package:invelop/theme/invelop_colors.dart';
+import 'package:invelop/widgets/custom_fab/custom_fab_widget.dart';
 import 'package:invelop/widgets/menuDrawer/menuDrawer_widget.dart';
 import 'package:invelop/pages/budget/month_selector_widget.dart';
 
@@ -101,6 +104,38 @@ class _BudgetScreenState extends State<BudgetScreen> {
             budgetItem('Alimentação', 1000, 1000),
           ]),
         ],
+      ),
+      floatingActionButton: Align(
+        alignment: Alignment.bottomCenter,
+        child: CustomFabWidget(
+          menuItems: const [
+            PopupMenuItem(
+              value: 1,
+              child: Text("Adicionar transação",
+                  style: TextStyle(color: InVelopColors.text)),
+            ),
+            PopupMenuItem(
+              value: 2,
+              child: Text("Adicionar uma conta",
+                  style: TextStyle(color: InVelopColors.text)),
+            ),
+          ],
+          onItemSelected: (value) {
+            if (value == 1) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const TransactionsPage()),
+              );
+            } else if (value == 2) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const CreateAccountPage()),
+              );
+            }
+          },
+        ),
       ),
     );
   }
