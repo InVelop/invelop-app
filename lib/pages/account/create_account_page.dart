@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:invelop/pages/budget/budget_page.dart';
 import 'package:invelop/theme/invelop_colors.dart';
 import 'package:invelop/utils/CurrencyFormat.dart';
 import 'package:invelop/widgets/button/button_widget.dart';
@@ -68,6 +69,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Erro ao cadastrar conta: $err")));
       });
+
+      Navigator.pushNamed(context, '/budget');
     }
   }
 

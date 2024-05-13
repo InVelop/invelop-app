@@ -10,6 +10,7 @@ import 'package:invelop/widgets/custom_fab/custom_fab_widget.dart';
 import 'package:invelop/widgets/menuDrawer/menuDrawer_widget.dart';
 import 'package:invelop/widgets/transactions/no_accounts.dart';
 import 'package:invelop/widgets/transactions/no_transactions.dart';
+import 'package:invelop/widgets/transactions/transaction_modal.dart';
 import 'package:provider/provider.dart';
 
 class TransactionsPage extends StatefulWidget {
@@ -159,126 +160,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                   context: context,
                   backgroundColor: InVelopColors.background,
                   builder: (context) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SingleChildScrollView(
-                        child: Form(
-                          key: _form,
-                          child: Column(
-                            children: <Widget>[
-                              InputDecorator(
-                                decoration: const InputDecoration(
-                                  labelText: "Conta",
-                                  labelStyle:
-                                      TextStyle(color: InVelopColors.text),
-                                ),
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<String>(
-                                    value: _accountName.text.isEmpty
-                                        ? null
-                                        : _accountName.text,
-                                    items: accounts?.map((account) {
-                                      return DropdownMenuItem<String>(
-                                        value: account.name,
-                                        child: Text(account.name),
-                                      );
-                                    }).toList(),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _accountName.text = value!;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ),
-                              TextFormField(
-                                controller: _amount,
-                                style:
-                                    const TextStyle(color: InVelopColors.text),
-                                decoration: const InputDecoration(
-                                  labelText: 'Valor',
-                                  labelStyle:
-                                      TextStyle(color: InVelopColors.text),
-                                ),
-                                keyboardType: TextInputType.number,
-                              ),
-                              TextFormField(
-                                controller: _category,
-                                style:
-                                    const TextStyle(color: InVelopColors.text),
-                                decoration: const InputDecoration(
-                                  labelText: 'Categoria',
-                                  labelStyle:
-                                      TextStyle(color: InVelopColors.text),
-                                ),
-                              ),
-                              TextFormField(
-                                controller: _date,
-                                readOnly: true,
-                                style:
-                                    const TextStyle(color: InVelopColors.text),
-                                decoration: const InputDecoration(
-                                  labelText: 'Data',
-                                  labelStyle:
-                                      TextStyle(color: InVelopColors.text),
-                                ),
-                                onTap: () async {
-                                  var date = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2000),
-                                    lastDate: DateTime(2100),
-                                  );
-                                  if (date != null) {
-                                    _date.text =
-                                        DateFormat('dd-MM-yyyy').format(date);
-                                  }
-                                },
-                              ),
-                              TextFormField(
-                                controller: _name,
-                                style:
-                                    const TextStyle(color: InVelopColors.text),
-                                decoration: const InputDecoration(
-                                  labelText: 'Nome',
-                                  labelStyle:
-                                      TextStyle(color: InVelopColors.text),
-                                ),
-                              ),
-                              InputDecorator(
-                                decoration: const InputDecoration(
-                                  labelText: "Tipo",
-                                  labelStyle:
-                                      TextStyle(color: InVelopColors.text),
-                                ),
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<String>(
-                                    items: <String>['Income', 'Outcome']
-                                        .map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                    onChanged: (value) {
-                                      _type.text = value!;
-                                    },
-                                  ),
-                                ),
-                              ),
-                              TextButton(
-                                child: const Text('Add Transaction',
-                                    style:
-                                        TextStyle(color: InVelopColors.text)),
-                                onPressed: () {
-                                  addTransaction();
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
+                    return TransactionModal(accounts: accounts);
                   },
                 );
               } else if (value == 2) {
