@@ -1,10 +1,11 @@
 // Define a model class to hold user data
 import 'package:flutter/material.dart';
+import 'package:invelop/models/account_model.dart';
 
 class UserModel {
   final String? uid;
   final String? email;
-  final List<String>? accounts;
+  final List<AccountModel>? accounts;
 
   UserModel({required this.uid, required this.email, this.accounts});
 }

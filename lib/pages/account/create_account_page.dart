@@ -44,9 +44,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         return;
       }
 
-      var collection = FirebaseFirestore.instance.collection('users/$userUID/accounts');
-      
-      double? balance = double.tryParse(initialValueController.text.replaceAll("R\$ ", "").replaceAll(".", "").replaceAll(",", "."));
+      var collection =
+          FirebaseFirestore.instance.collection('users/$userUID/accounts');
+
+      double? balance = double.tryParse(initialValueController.text
+          .replaceAll("R\$ ", "")
+          .replaceAll(".", "")
+          .replaceAll(",", "."));
       if (balance == null) {
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Valor do balanço inválido.")));

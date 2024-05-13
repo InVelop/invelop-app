@@ -3,6 +3,7 @@ import 'package:invelop/pages/budget/avaliable_money_widget.dart';
 import 'package:invelop/pages/budget/budget_category_widget.dart';
 import 'package:invelop/pages/budget/budget_item_widget.dart';
 import 'package:invelop/services/account_types_service.dart';
+import 'package:invelop/services/user_service.dart';
 import 'package:invelop/theme/invelop_colors.dart';
 import 'package:invelop/widgets/menuDrawer/menuDrawer_widget.dart';
 import 'package:invelop/pages/budget/month_selector_widget.dart';
@@ -19,11 +20,17 @@ class _BudgetScreenState extends State<BudgetScreen> {
   void initState() {
     super.initState();
     saveAccountTypes();
+    updateUserData();
   }
 
   saveAccountTypes() async {
     final accountTypesService = AccountTypesService();
     await accountTypesService.fetchAccountTypes(context);
+  }
+
+  updateUserData() async {
+    final userService = UserService();
+    await userService.fetchUserAccountsAndTransactions(context);
   }
 
   @override
