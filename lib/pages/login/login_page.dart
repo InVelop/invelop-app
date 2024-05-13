@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:invelop/models/user_model.dart';
 import 'package:invelop/services/auth_service.dart';
 import 'package:invelop/theme/invelop_colors.dart';
 import 'package:invelop/widgets/inputField/inputField_widget.dart';
 import 'package:invelop/widgets/logo/logo_widget.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -26,7 +28,14 @@ class _LoginPageState extends State<LoginPage> {
 
       var result =
           await _authService.signUser(email: email, password: password);
-      if (result == null) {
+
+      final uid = result?.user?.uid;
+
+      // Store the user data using the provider
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      userProvider.setUser(UserModel(uid: uid, email: email));
+
+      if (result != null) {
         setState(() {
           error = false;
         });
@@ -44,66 +53,68 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Center(
-          child: Form(
-        key: _form,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const LogoWidget(),
-            InputFieldWidget(
-              label: "Email",
-              controller: _email,
-              inputType: TextInputType.emailAddress,
-              isRequired: true,
-            ),
-            const SizedBox(height: 16),
-            InputFieldWidget(
-                label: "Senha",
-                obscureText: true,
-                controller: _password,
-                isRequired: true),
-            const SizedBox(height: 32),
-            Center(
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: 300.0,
-                    height: 50.0,
-                    child: ElevatedButton(
-                      onPressed: sign,
+      padding: const EdgeInsets.only(left: 40, right: 40, top: 70),
+      child: SingleChildScrollView(
+        child: Center(
+            child: Form(
+          key: _form,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const LogoWidget(),
+              InputFieldWidget(
+                label: "Email",
+                controller: _email,
+                inputType: TextInputType.emailAddress,
+                isRequired: true,
+              ),
+              const SizedBox(height: 16),
+              InputFieldWidget(
+                  label: "Senha",
+                  obscureText: true,
+                  controller: _password,
+                  isRequired: true),
+              const SizedBox(height: 32),
+              Center(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: 300.0,
+                      height: 50.0,
+                      child: ElevatedButton(
+                        onPressed: sign,
+                        style: const ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll<Color>(
+                                InVelopColors.primary)),
+                        child: const Text('Login',
+                            style: TextStyle(color: InVelopColors.light)),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    ElevatedButton(
+                      onPressed: () {
+                        _form.currentState!.reset();
+                        Navigator.pushNamed(context, '/sign-up');
+                      },
                       style: const ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll<Color>(
-                              InVelopColors.primary)),
-                      child: const Text('Login',
-                          style: TextStyle(color: InVelopColors.light)),
+                              Colors.transparent),
+                          shadowColor: MaterialStatePropertyAll<Color>(
+                              Colors.transparent)),
+                      child: const Text('Cadastre-se',
+                          style: TextStyle(color: InVelopColors.text)),
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  ElevatedButton(
-                    onPressed: () {
-                      _form.currentState!.reset();
-                      Navigator.pushNamed(context, '/sign-up');
-                    },
-                    style: const ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll<Color>(Colors.transparent),
-                        shadowColor: MaterialStatePropertyAll<Color>(
-                            Colors.transparent)),
-                    child: const Text('Cadastre-se',
-                        style: TextStyle(color: InVelopColors.text)),
-                  ),
-                  const SizedBox(height: 32),
-                  if (error)
-                  const Text('Email ou senha incorretos',
-                        style: TextStyle(color: InVelopColors.error))
-                ],
-              ),
-            )
-          ],
-        ),
-      )),
+                    const SizedBox(height: 32),
+                    if (error)
+                      const Text('Email ou senha incorretos',
+                          style: TextStyle(color: InVelopColors.error))
+                  ],
+                ),
+              )
+            ],
+          ),
+        )),
+      ),
     ));
   }
 }
