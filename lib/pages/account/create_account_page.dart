@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:invelop/models/account_model.dart';
+import 'package:invelop/models/user_model.dart';
 import 'package:invelop/pages/budget/budget_page.dart';
 import 'package:invelop/theme/invelop_colors.dart';
 import 'package:invelop/utils/CurrencyFormat.dart';
@@ -9,6 +11,7 @@ import 'package:invelop/widgets/inputField/inputField_widget.dart';
 import 'package:invelop/widgets/menuDrawer/menuDrawer_widget.dart';
 import 'package:invelop/widgets/selectField/selectField_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({super.key});
@@ -21,7 +24,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   final _form = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController initialValueController = TextEditingController();
-  String selectedDropdownValue = "credit_card";
+  String selectedDropdownValue = "1St2h7anOBLj71kpxeyt";
 
   final List<DropdownItem> items = [
     DropdownItem("Conta Corrente", "kBUAiQxs0ZJnyPksepxv"),
@@ -65,12 +68,15 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       }).then((result) {
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Conta cadastrada com sucesso!")));
+            
+            AccountModel newAccount = AccountModel(accountType: selectedDropdownValue, balance: balance, name: nameController.text, uid: result.id);
+            var userProvider = Provider.of<UserProvider>(context, listen: false);
+            userProvider.updateAccounts([newAccount]);
+            Navigator.pushNamed(context, '/budget');
       }).catchError((err) {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Erro ao cadastrar conta: $err")));
-      });
-
-      Navigator.pushNamed(context, '/budget');
+      }); 
     }
   }
 
