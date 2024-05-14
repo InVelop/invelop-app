@@ -28,13 +28,6 @@ class MenuDrawerWidget extends StatelessWidget {
                 },
               ),
             ListTile(
-              leading: const Icon(Icons.wallet),
-              title: const Text("Criar conta"),
-              onTap: () {
-                Navigator.pushNamed(context, '/create-account');
-              },
-            ),
-            ListTile(
               leading: const Icon(Icons.money),
               title: const Text("Transações"),
               onTap: () {

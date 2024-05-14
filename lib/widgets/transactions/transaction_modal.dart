@@ -6,7 +6,7 @@ import 'package:invelop/theme/invelop_colors.dart';
 import 'package:provider/provider.dart';
 
 class TransactionModal extends StatefulWidget {
-  final List<AccountModel> accounts;
+  final List<AccountModel>? accounts;
 
   TransactionModal({required this.accounts});
 

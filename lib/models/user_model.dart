@@ -5,7 +5,7 @@ import 'package:invelop/models/account_model.dart';
 class UserModel {
   final String? uid;
   final String? email;
-  final List<AccountModel>? accounts;
+  List<AccountModel>? accounts = [];
 
   UserModel({required this.uid, required this.email, this.accounts});
 }
@@ -30,6 +30,14 @@ class UserProvider with ChangeNotifier {
             ?.firstWhere((account) => account.name == accountName)
             ?.uid ??
         '';
+  }
+
+  void updateAccounts(List<AccountModel> accounts) {
+    if (_user!.accounts!.isEmpty) {
+      user?.accounts = accounts;
+    } else {
+      user?.accounts?.addAll(accounts);
+    }
   }
 
   void cleanUser() {
