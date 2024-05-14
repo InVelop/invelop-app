@@ -20,4 +20,20 @@ class UserProvider with ChangeNotifier {
     _user = user;
     notifyListeners();
   }
+
+  String getAccountID(String accountName) {
+    print("Called getAccountID");
+    print(_user?.accounts);
+    print(accountName);
+
+    return _user?.accounts
+            ?.firstWhere((account) => account.name == accountName)
+            ?.uid ??
+        '';
+  }
+
+  void cleanUser() {
+    _user = null;
+    notifyListeners();
+  }
 }
