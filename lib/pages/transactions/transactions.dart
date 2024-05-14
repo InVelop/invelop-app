@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:invelop/models/user_model.dart';
+import 'package:invelop/pages/budget/budget_page.dart';
 import 'package:invelop/pages/myAccounts/myAccounts_page.dart';
 import 'package:invelop/services/user_service.dart';
 import 'package:invelop/utils/custom_date_utils.dart';
@@ -34,12 +35,13 @@ class _TransactionsPageState extends State<TransactionsPage> {
     final uid = user?.uid;
     final email = user?.email;
     final accounts = user?.accounts;
-    final transactions =
+    var transactions =
         user?.accounts?.expand((account) => account.transactions ?? []);
 
     updateUserData() async {
       final userService = UserService();
       await userService.fetchUserAccountsAndTransactions(context);
+      print('User data updated!');
     }
 
     if (transactions != null && transactions.isNotEmpty) {
@@ -153,6 +155,11 @@ class _TransactionsPageState extends State<TransactionsPage> {
                   },
                 ).then((_) {
                   updateUserData();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const BudgetScreen()),
+                  );
                 });
               } else if (value == 2) {
                 Navigator.push(
