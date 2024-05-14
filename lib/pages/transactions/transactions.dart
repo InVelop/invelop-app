@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:invelop/models/transaction_model.dart';
 import 'package:invelop/models/user_model.dart';
-import 'package:invelop/pages/account/create_account_page.dart';
 import 'package:invelop/pages/myAccounts/myAccounts_page.dart';
+import 'package:invelop/services/user_service.dart';
 import 'package:invelop/utils/custom_date_utils.dart';
 import 'package:invelop/theme/invelop_colors.dart';
 import 'package:invelop/widgets/custom_fab/custom_fab_widget.dart';
@@ -39,22 +37,13 @@ class _TransactionsPageState extends State<TransactionsPage> {
     final transactions =
         user?.accounts?.expand((account) => account.transactions ?? []);
 
-    if (transactions != null && transactions.isNotEmpty) {
-      transactions.toList().sort((a, b) => b.date.compareTo(a.date));
+    updateUserData() async {
+      final userService = UserService();
+      await userService.fetchUserAccountsAndTransactions(context);
     }
 
-    addTransaction() async {
-      print("Adding transaction");
-      print("Account: ${_accountName.text}");
-      print("Amount: ${_amount.text}");
-      print("Category: ${_category.text}");
-      print("Date: ${_date.text}");
-      print("Name: ${_name.text}");
-      print("Type: ${_type.text}");
-
-      if (_form.currentState!.validate()) {
-        print("Validated");
-      }
+    if (transactions != null && transactions.isNotEmpty) {
+      transactions.toList().sort((a, b) => b.date.compareTo(a.date));
     }
 
     if (accounts == null || accounts.isEmpty) {
@@ -162,7 +151,9 @@ class _TransactionsPageState extends State<TransactionsPage> {
                   builder: (context) {
                     return TransactionModal(accounts: accounts);
                   },
-                );
+                ).then((_) {
+                  updateUserData();
+                });
               } else if (value == 2) {
                 Navigator.push(
                   context,
