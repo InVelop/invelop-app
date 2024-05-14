@@ -10,20 +10,14 @@ It consistis in a personal financial control app, based on envelopes method wher
 ## Installation
 
 Install Flutter:
-Open a command prompt or PowerShell window.
-Run the following command to download and install Flutter:
-``` 
-git clone https://github.com/flutter/flutter.git
-```
-
-Add the Flutter bin directory to your system PATH:
-Navigate to the cloned Flutter directory (e.g., C:\path\to\flutter).
-Run flutter doctor to verify that Flutter is correctly installed and to check for any additional requirements.
+https://docs.flutter.dev/get-started/install/windows/mobile?tab=vscode
 
 ```bash
 git clone https://github.com/InVelop/invelop-app.git
 flutter run
 ```
+
+The first time you open the project, VsCode will identify its a flutter app, and if you have it downloaded, it will recommend to install or find flutter repository.  
 
 ## Usage
 The first step to start using the system, is to register. For it, we used firebase which is responsible for all the login management.
