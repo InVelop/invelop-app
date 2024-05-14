@@ -85,24 +85,36 @@ class _TransactionModalState extends State<TransactionModal> {
                       ),
                       contentPadding: EdgeInsets.only(left: 10),
                     ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: _accountName.text.isEmpty
-                            ? null
-                            : _accountName.text,
-                        items: widget.accounts?.map((account) {
-                          return DropdownMenuItem<String>(
-                              value: account.name,
-                              child: Text(account.name,
-                                  style: const TextStyle(
-                                      color: InVelopColors.text)));
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            _accountName.text = value!;
-                          });
-                        },
+                    child: DropdownButton(
+                      isExpanded: true,
+                      style: const TextStyle(color: InVelopColors.text),
+                      value:
+                          _accountName.text.isEmpty ? null : _accountName.text,
+                      underline: Container(
+                        height: 1,
+                        color: InVelopColors.text,
                       ),
+                      selectedItemBuilder: (BuildContext context) {
+                        return widget.accounts!.map((item) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: Text(
+                              item.name,
+                              style: const TextStyle(color: InVelopColors.text),
+                            ),
+                          );
+                        }).toList();
+                      },
+                      items: widget.accounts?.map((account) {
+                        return DropdownMenuItem<String>(
+                            value: account.name,
+                            child: Text(account.name,
+                                style: const TextStyle(
+                                    color: InVelopColors.dark)));
+                      }).toList(),
+                      onChanged: (value) => {
+                        setState(() => _accountName.text = value!),
+                      },
                     ),
                   ),
                   InputDecorator(
@@ -114,6 +126,20 @@ class _TransactionModalState extends State<TransactionModal> {
                     ),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
+                        value: _type.text.isEmpty ? null : _type.text,
+                        selectedItemBuilder: (BuildContext context) {
+                          return  <String>['Receita', 'Despesa'].map((item) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 16.0),
+                              child: Text(
+                                item,
+                                style:
+                                    const TextStyle(color: InVelopColors.text),
+                              ),
+                            );
+                          }).toList();
+                        },
                         items:
                             <String>['Receita', 'Despesa'].map((String value) {
                           return DropdownMenuItem<String>(
@@ -122,7 +148,7 @@ class _TransactionModalState extends State<TransactionModal> {
                           );
                         }).toList(),
                         onChanged: (value) {
-                          _type.text = value!;
+                          setState(() => _type.text = value!);
                         },
                       ),
                     ),
